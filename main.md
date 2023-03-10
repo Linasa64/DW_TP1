@@ -69,9 +69,16 @@ On prend toutes les instances avec une * et on regarde combien il y en a de vide
 
 `count(//country)-count(//country[borders])` --> 82
 
+Pour tous ces pays, on remplace * par + car ils peuvent en avoir de 1 à n.
+
+On remarque aussi que tous les pays ont un continent :
+`count(//country)-count(//country/infosContinent[continent])` --> 0
+
+Comme tous les pays ont un et un seul continent, on ne pas de + mais rien cette fois.
+
 
 Au final on change comme ça : 
 
 `<!ELEMENT country (country_name,tld*,country_codes,currency*,callingCode*,
-                   capital,altSpellings, infosContinent,languages,
+                   capital,altSpellings+, infosContinent+,languages+,
                    coordinates*,demonym,landlocked,borders*)>`
