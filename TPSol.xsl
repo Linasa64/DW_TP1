@@ -37,6 +37,14 @@
           </xsl:if>
         </xsl:for-each>
 
+
+
+
+        <img src="http://www.geonames.org/flags/x/{translate(//country[country_name/common_name[text()='France']]/country_codes/cca2, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')}.gif" alt="" height="40" width="60"/> 
+
+
+
+
       </body>
     </html>
   </xsl:template>
