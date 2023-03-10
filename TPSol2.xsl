@@ -110,13 +110,34 @@
   </xsl:template> 
 
   <xsl:template match="neighbour">
-    <xsl:for-each select="//current()/borders/neighbour">
+    <xsl:for-each select="current()/borders/neighbour">,
         <xsl:value-of select="./*">
+    </xsl:for-each>
   </xsl:template> 
 
 
   
 </xsl:stylesheet>
+
+
+
+<xsl:template match="country_name">
+	<span style="color:green">
+			<xsl:value-of select="//current()/country_name/offic_name"/>
+	</span>
+	(
+			<xsl:value-of select="//current()/country_name/common_name"/>
+	)
+	<br>
+
+	<xsl:if test="//current()[(native_name[@lang='fra'])] != text()">
+			<span style="color:blue">
+					Nom français : 
+					<xsl:value-of select="//current()/native_name[@lang='fra']/offic_name"/>
+			</span>
+	</xsl:if>
+
+</xsl:template>
 
 
 

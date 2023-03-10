@@ -30,18 +30,33 @@
           <xsl:if test="text()">
 
             <h3>Pays du continent : <xsl:value-of select="."/> par sous-régions :</h3>
+            
 
-            <xsl:for-each select="//infosContinent[continent=current()]/subregion[not(preceding::subregion/. = .)]">
-              <h4><xsl:value-of select="current()"/> (<xsl:value-of select="count(//country/infosContinent[subregion=current()])"/> pays)</h4>
-              <xsl:for-each select="//country[infosContinent/subregion=current()]">
-                <h5><xsl:value-of select="position()"/> <xsl:value-of select="current()/country_name/common_name"/></h5>
-                <img src="http://www.geonames.org/flags/x/{translate(//country[country_name/common_name[text()=current()/country_name/common_name]]/country_codes/cca2, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')}.gif" alt="" height="40" width="60"/> 
-                
-              </xsl:for-each>
+						<xsl:for-each select="//infosContinent[continent=current()]/subregion[not(preceding::subregion/. = .)]">
+							<h4><xsl:value-of select="current()"/> (<xsl:value-of select="count(//country/infosContinent[subregion=current()])"/> pays)</h4>
+							<table border="3" width="100%" align="center">
+								<tbody>
+										<tr>
+												<th> N°</th> 
+												<th> Name </th> 
+												<th> Capital </th> 
+												<th> Coordinates </th> 
+												<th> Neighbours </th>
+												<th> Flag </th>
+												<th> Spoken Languages </th>
+										</tr>
+										
+											<xsl:apply-templates select="//country[infosContinent/subregion=current()]"/>
+										
+										
+										
+										
+										
+								</tbody>
+							</table>
             </xsl:for-each>
           </xsl:if>
         </xsl:for-each>
-
       </body>
     </html>
   </xsl:template>
@@ -60,7 +75,7 @@
     <xsl:for-each select="./*">
       <xsl:value-of select="concat(., ' (', name(.), ')')"/>
       
-      <xsl:if test="following-sibling::*"> , </xsl:if> 
+      <xsl:if test="following-sibling::*"> , </xsl:if>
 
     </xsl:for-each>
 
@@ -76,6 +91,57 @@
   </xsl:for-each>
 </xsl:template>
 
+<xsl:template match="country">
+	<tr>
+		<td>
+		<h5><xsl:value-of select="position()"/></h5>
+		</td>
+		<td>
+			<span style="color:green">
+					<xsl:value-of select="current()/country_name/offic_name"/>
+			</span>
+			
+			(<xsl:value-of select="current()/country_name/common_name"/>)
+			
+			<br/>
 
-  
+			<xsl:if test="current()[country_name/native_name[@lang='fra']][*]">
+				<span style="color:blue">
+						Nom français : 
+						<xsl:value-of select="current()/country_name/native_name[@lang='fra']/offic_name"/>
+				</span>
+			</xsl:if>
+		</td>
+		<td>
+			<xsl:value-of select="current()/capital"/>
+		</td>
+		<td>
+		    Latitude :  <xsl:value-of select="current()/coordinates/@lat"/>
+    <br/>
+				Longitude :  <xsl:value-of select="current()/coordinates/@long"/>
+    <br/>
+		</td>
+		<td>
+		<xsl:if test="not(current()/borders[*])">
+		Island
+		</xsl:if>
+			<xsl:for-each select="current()/borders/neighbour">
+				<xsl:value-of select="//country[country_codes/cca3=current()]/country_name/common_name"/> <xsl:if test="following-sibling::*">, </xsl:if>
+			</xsl:for-each>
+		
+		</td>
+		<td>
+			<img src="http://www.geonames.org/flags/x/{translate(//country[country_name/common_name[text()=current()/country_name/common_name]]/country_codes/cca2, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')}.gif" alt="" height="40" width="60"/>
+		</td>
+		<td>
+			<xsl:for-each select="current()/languages/*">
+				<xsl:value-of select="current()"/> <xsl:if test="following-sibling::*">, </xsl:if>
+			</xsl:for-each>
+		</td>
+	</tr>
+
+</xsl:template>
+
+
+
 </xsl:stylesheet>
