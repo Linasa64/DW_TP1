@@ -22,7 +22,7 @@
           </xsl:apply-templates>
         </ul>
 
-        Countries having the most neighbours: , nb de voisins : 
+        Countries having the most neighbours: <xsl:call-template name="neighbours"/>  
 
         <hr></hr>
 
@@ -65,6 +65,16 @@
     </xsl:for-each>
 
   </xsl:template>
+
+  <xsl:template name="neighbours">
+    <xsl:for-each select="//country">
+      <xsl:sort select="count(borders/*)" order="descending" data-type="number"/>
+      <xsl:if test="position() = 1">
+          <xsl:value-of select="country_name/common_name" />
+          , nb de voisins : <xsl:value-of select="count(country_name/common_name/../../borders/*)"/>
+      </xsl:if>
+  </xsl:for-each>
+</xsl:template>
 
 
   
