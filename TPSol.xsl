@@ -22,7 +22,7 @@
           </xsl:apply-templates>
         </ul>
 
-        Countries having the most neighbours: <xsl:call-template name="neighbours"/> 
+        Countries having the most neighbours: , nb de voisins : 
 
         <hr></hr>
 
@@ -33,17 +33,14 @@
 
             <xsl:for-each select="//infosContinent[continent=current()]/subregion[not(preceding::subregion/. = .)]">
               <h4><xsl:value-of select="current()"/> (<xsl:value-of select="count(//country/infosContinent[subregion=current()])"/> pays)</h4>
+              <xsl:for-each select="//country[infosContinent/subregion=current()]">
+                <h5><xsl:value-of select="position()"/> <xsl:value-of select="current()/country_name/common_name"/></h5>
+                <img src="http://www.geonames.org/flags/x/{translate(//country[country_name/common_name[text()=current()/country_name/common_name]]/country_codes/cca2, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')}.gif" alt="" height="40" width="60"/> 
+                
+              </xsl:for-each>
             </xsl:for-each>
           </xsl:if>
         </xsl:for-each>
-
-
-
-
-        <img src="http://www.geonames.org/flags/x/{translate(//country[country_name/common_name[text()='France']]/country_codes/cca2, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')}.gif" alt="" height="40" width="60"/> 
-
-
-
 
       </body>
     </html>
@@ -70,14 +67,5 @@
   </xsl:template>
 
 
-<xsl:template name="neighbours">
-    <xsl:for-each select="//country">
-      <xsl:sort select="count(borders/*)" order="descending" data-type="number"/>
-      <xsl:if test="position() = 1">
-          <xsl:value-of select="country_name/common_name" />
-          , nb de voisins : <xsl:value-of select="count(country_name/common_name/../../borders/*)"/>
-      </xsl:if>
-  </xsl:for-each>
-</xsl:template>
   
 </xsl:stylesheet>
