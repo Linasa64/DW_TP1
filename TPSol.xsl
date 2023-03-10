@@ -9,7 +9,7 @@
       <body>
       <h1> Information about countries </h1>
         <p style="color:green;"><center>Objectif : Données pour illuster le TP du module Données du Web, 3IF, Département Informatique INSA de Lyon </center></p>
-        <p> Mise en forme par Nom Binome 1, Nome Binome 2 (B3XXX) </p>
+        <p> Mise en forme par BORG Lina, DROUILLY Dominique, SIMAR Raphaël (B3129) </p>
 
         <hr></hr>
         <hr></hr>
