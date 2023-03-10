@@ -26,7 +26,16 @@
 
         <hr></hr>
 
-        <h3>Pays du continent : Americas par sous-régions :</h3>
+        <xsl:for-each select="//continent[not(preceding::continent/. = .)]">
+          <xsl:if test="text()">
+
+            <h3>Pays du continent : <xsl:value-of select="."/> par sous-régions :</h3>
+
+            <xsl:for-each select="//infosContinent[continent=current()]/subregion[not(preceding::subregion/. = .)]">
+              <h4><xsl:value-of select="current()"/> (<xsl:value-of select="count(//country/infosContinent[subregion=current()])"/> pays)</h4>
+            </xsl:for-each>
+          </xsl:if>
+        </xsl:for-each>
 
       </body>
     </html>
